@@ -10,12 +10,12 @@ error NotOwner();
 contract FundMe {
     using PriceConverter for uint256;
     uint256 public constant MINIMUM_USD = 5e18;
-    address public ownerAddress;
+    address private immutable ownerAddress;
     uint256 public version;
     AggregatorV3Interface private s_priceFeed;
 
-    address[] public funders;
-    mapping(address funder => uint256 amountFunded) addressToFund;
+    address[] private funders;
+    mapping(address funder => uint256 amountFunded) private addressToFund;
 
     constructor(address priceFeed_address) {
         ownerAddress = msg.sender;
@@ -83,4 +83,20 @@ contract FundMe {
 
     // receive - function type - this is call when transaction has no data including in it
     // fallback - function type - over come the flaws in the receive function means this function is call when the data is assostiated with the transaction
+
+    // view / pUre functions (Getters)
+
+    function getAddressToFunded(
+        address fundingAddress
+    ) external view returns (uint256) {
+        return addressToFund[fundingAddress];
+    }
+
+    function getFunder(uint256 index) external view returns (address) {
+        return funders[index];
+    }
+
+    function getOwnerAddress() external view returns (address) {
+        return ownerAddress;
+    }
 }
