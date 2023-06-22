@@ -74,7 +74,7 @@ contract FundeMeTest is Test {
         assertEq(endingFundMeBalace, 0);
     }
 
-    function testWithdrawFromMultipleFunders() public funded {
+    function testCheaperWithdrawFromMultipleFunders() public funded {
         uint160 numberOfFunders = 10;
         uint160 startingFunderIndex = 10;
 
@@ -87,7 +87,8 @@ contract FundeMeTest is Test {
         uint256 startingFundMeBalance = address(fundme).balance;
 
         vm.startPrank(fundme.getOwnerAddress());
-        fundme.withdraw();
+        fundme.cheaperWithdraw(); // GAS : 84684
+        // fundme.withdraw(); GAS : 84725
         vm.stopPrank();
 
         uint256 endingOwnerBalance = fundme.getOwnerAddress().balance;
