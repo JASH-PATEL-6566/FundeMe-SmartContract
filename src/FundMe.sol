@@ -11,7 +11,7 @@ contract FundMe {
     using PriceConverter for uint256;
     uint256 public constant MINIMUM_USD = 5e18;
     address private immutable ownerAddress;
-    uint256 public version;
+    uint256 public immutable version;
     AggregatorV3Interface private s_priceFeed;
 
     address[] private funders;
