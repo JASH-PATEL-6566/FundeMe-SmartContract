@@ -32,6 +32,27 @@ contract FundMe {
         addressToFund[msg.sender] = addressToFund[msg.sender] + msg.value;
     }
 
+    // store and read from storage is cost around - 100 GAS
+    // but on other side store and read from memory cosr aroud - 3 GAS
+
+    function cheaperWithdraw() public onlyOwner {
+        uint256 fundersLength = funders.length;
+
+        for (
+            uint256 funderIndex = 0;
+            funderIndex < fundersLength;
+            funderIndex++
+        ) {
+            address funder = funders[funderIndex];
+            addressToFund[funder] = 0;
+        }
+        funders = new address[](0);
+        (bool callSuccess, ) = payable(msg.sender).call{
+            value: address(this).balance
+        }("");
+        require(callSuccess, "Transaction fails.");
+    }
+
     function withdraw() public onlyOwner {
         for (
             uint256 funderIndex = 0;
