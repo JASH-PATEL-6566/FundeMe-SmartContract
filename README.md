@@ -1,3 +1,37 @@
+# `Modifier` #
+
+let's say we need to perform require function at very first line and if condition is true then we need to perform reset of the code and we need to do this stuff in many functions so there is 2 ways we manually write require condition in first line of every function but this is not a best practice so best thing to do is use `modifier`.
+
+```solidity
+
+contract FundMe{
+    function func1() public firstRun{
+        // code ......
+    }
+
+    function func2() public lastRun{
+        // code ......
+    }
+
+    modifier firstRun(){
+        require(msg.value > 2,"send it");
+        _;
+    }
+
+    modifier lastRun(){
+        _;
+        require(msg.value > 3,"send it");
+    }
+}
+```
+
+| Function | Explaination |
+--- | --- |
+`firstRun()` | those functions which contain this modifier, in those functions the code which is in modifier is execute first and then the code in function
+`lastRun()` | those functions which contain this modifier, in those functions the code which is in modifier is execute last after execution of functions code
+
+
+
 # `Library` #
 
 - we need to import library first
@@ -94,3 +128,82 @@ function fund() public payable {
      require(callSuccess,"Send failed!");
     }
     ```
+
+
+# Cost Efficient #
+
+- use constant OR immutable keyword with variable
+  
+| Keyword | Usage |
+--- | --- |
+`constant` | is used with the variable which is define at the time per declaration and we cannot change the value of this variable
+`immutable` | is used with the variable which is define after declaration, once the variable is define we cannot change that value
+
+- avoid using require, bcz the string which is given as a error message take too much gas, insted use default error and `revert` keyword
+
+```solidity
+error NotOwner();
+
+contract FundMe(){
+    function checkOwner() public{
+        // reuire(msg.sender == owner, "Not a oner");
+        // use this
+        if(msg.sender != owner){
+            revert NotOwner()
+        }
+    }
+}
+```
+
+# Special Functions #
+
+- ### `receive()` ###
+
+let's understand the use case, let say someone send some ETH directly without calling function in your Smart Contract which handles deposite, at this case it won't we accepted, if we use receive function at that time in this condition this functions get triger. 
+
+```
+IMPORTANT : main thing which we keep in mind is transaction does not have any kind of CALLDATA in it.
+```
+
+```solidity
+
+contract FundMe{
+    function fund() public payable{
+        // code which accept payment from user
+    }
+
+    receive() external payable{
+        fund();
+    }
+}
+```
+
+- ### `fallback()` ###
+
+it works completely same as receive function. `MAIN DIIFERENCE` is that it also accept the transaction with CALLDATA.
+
+```solidity
+
+contract FundMe{
+    function fund() public payable{
+        // code which accept payment from user
+    }
+
+    fallback() external payable{
+        fund();
+    }
+}
+```
+
+```
+         is msg.data empty?
+              /  \
+            yes  no
+            /      \
+      receive()?   fallback()
+        /    \
+      yes    no
+      /        \ 
+   receive()  fallback()
+```
+- 
