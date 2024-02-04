@@ -1,1 +1,5 @@
-[```Make File Reference```](https://github.com/Cyfrin/foundry-fund-me-f23/blob/main/Makefile) - for easy to run commands in terminal
+Error in compilation (DNS faliure)
+```
+sudo nano /etc/resolv.conf
+change to ----- nameserver 8.8.8.8
+```
