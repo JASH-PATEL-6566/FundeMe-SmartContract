@@ -54,5 +54,5 @@ cast send <contract-address> "function_name(passed_arg_type)" <arg_value> --rpc-
 ```
 for read value from contract
 ```
-cast call <contract-address> "function"/variable_name()"
+cast call <contract-address> "function"/variable_name()" --rpc-url <rpc-url>
 ```
