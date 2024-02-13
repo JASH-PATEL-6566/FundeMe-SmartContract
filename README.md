@@ -62,3 +62,23 @@ cast call <contract-address> "function"/variable_name()" --rpc-url <rpc-url>
 ```
 forge install smartcontractkit/chainlink-brownie-contracts@0.6.1 --no-commit
 ```
+
+# Test our contract #
+
+create test file under `test` folder, test file contian name in following format `<name>.t.sol`.
+
+- for test the contract we need to run command called
+```
+forge test
+```
+- In some contract we need to access the priceFeed for other data from other contracts so for that we need to host our contract on some real chain so for that we need to attach rpc url of that chain with test commnad
+
+```
+forge test --fork-url <url-of-chain>
+```
+
+### check how much code in your smartContract is tested ###
+
+```
+forge coverage --fork-url <url>
+```
