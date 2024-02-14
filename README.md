@@ -82,3 +82,6 @@ forge test --fork-url <url-of-chain>
 ```
 forge coverage --fork-url <url>
 ```
+
+# Professional Setup of Code #
+![Untitled-2024-02-14-1317](https://github.com/JASH-PATEL-6566/FundeMe-SmartContract/assets/100846378/5790bef3-c6fb-4c3c-8af1-53e551f3f9d3)
